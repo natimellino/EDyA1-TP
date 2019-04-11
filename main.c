@@ -7,19 +7,18 @@ int main(){
   /*for ( GList i = ListaDePersonas; i!=NULL; i=i->sig) {
     printf("%s %d %s\n", ((Persona*) i->dato)->nombre, ((Persona*)i->dato)->edad,((Persona*)i->dato)->lugarDeNacimiento);
   }*/
-  GList nuevaLista = glist_crear();
+  //GList nuevaLista = glist_crear();
   
-  nuevaLista = map(ListaDePersonas, aumentar_edad, copiar_nodo);
-  char nombre1[30]="aumentaedad.txt";
-  archivo_salida(nuevaLista, nombre1);
+  char nombre1[30]="ocultanombre.txt";
+  char nombre2[30]="aumentaedad.txt";
 
-  nuevaLista = map(ListaDePersonas, ocultar_nombre, copiar_nodo);
-  char nombre2[30]="ocultanombre.txt";
-  archivo_salida(nuevaLista, nombre2);
+  mapear_lista(ListaDePersonas, ocultar_nombre, copiar_nodo, nombre1);
+  mapear_lista(ListaDePersonas, aumentar_edad, copiar_nodo, nombre2);
 
-  /*for (GList i = nuevaLista; i != NULL; i = i->sig){
-  	printf("%s %d %s", ((Persona*)i->dato)->nombre, ((Persona*)i->dato)->edad, ((Persona*)i->dato)->lugarDeNacimiento);
-
-  }*/
+  for ( GList i = ListaDePersonas; i!=NULL; i=i->sig) {
+    printf("%s %d %s\n", ((Persona*) i->dato)->nombre, ((Persona*)i->dato)->edad,((Persona*)i->dato)->lugarDeNacimiento);
+  }
+  test_empieza_con_a();
+  test_es_mayor_de_edad();
   return 1;
 }

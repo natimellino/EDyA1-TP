@@ -5,7 +5,6 @@ typedef struct {
 	int edad;
 }Persona;
 
-//typedef Persona *PersonaList
 
 typedef struct _GNodo{
   void* dato;
@@ -14,7 +13,7 @@ typedef struct _GNodo{
 
 typedef GNodo *GList;
 
-//typedef int (*Predicado) (void* dato);
+typedef int (*Predicado) (void* dato);
 
 typedef void* (*Funcion) (void* dato);
 
@@ -22,32 +21,29 @@ typedef void* (*Copia) (void*);
 
 GList map(GList lista, Funcion f, Copia c);
 
-GList filter(GList lista, Funcion f, Copia c);
+GList filter(GList lista, Predicado p, Copia c);
 
-/**
- * Devuelve una lista vacía.
- */
+// Devuelve una lista vacía.
+
 GList glist_crear();
 
-/**
- * Destruccion de la lista.
- */
+// Destruccion de la lista.
+ 
 void glist_destruir(GList lista);
 
-/**
- * Determina si la lista es vacía.
- */
+// Determina si la lista es vacía.
+
 int glist_vacia(GList lista);
 
-/**
- * Agrega un elemento al final de la lista.
- */
-//glist glist_agregar_final(glist lista, int dato);
+// Agrega un elemento al inicio de la lista.
+ 
+GList glist_agregar_inicio(GList lista, void* dato);
 
-/**
- * Agrega un elemento al inicio de la lista.
- */
-GList glist_agregar_inicio(GList lista, Persona* dato);
+int mayor_de_edad(void* dato);
+
+void test_es_mayor_de_edad();
+
+void test_empieza_con_a();
 
 /**
  * Recorrido de la lista, utilizando la funcion pasada.
@@ -56,10 +52,19 @@ GList glist_agregar_inicio(GList lista, Persona* dato);
 
 GList lectura_archivo();
 
+void mostrar_persona(void *dato);
+
 void* aumentar_edad(void* p);
 
 void* ocultar_nombre(void* persona);
 
+int mayor_de_edad(void *dato);
+
+int empieza_con_a(void *dato);
+
 void* copiar_nodo(void* p);
 
-void archivo_salida(GList lista, char* nombreArchivo);
+void mapear_lista(GList lista, Funcion f, Copia c, char* nombreArchivo);
+
+void escribir_lista(char* nombreArchivo, GList lista);
+
