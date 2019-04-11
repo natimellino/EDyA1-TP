@@ -4,13 +4,21 @@
 #include <string.h>
 #include <assert.h>
 
+
+// Determina si una lista está vacía.
+
 int glist_vacia(GList lista) {
   return lista == NULL;
 }
 
+// Crea una lista vacía.
+
 GList glist_crear() {
   return NULL;
 }
+
+// Toma una lista enlazada simple y un elemento a agregar, devuelve
+// la lista con el elemento agregado al inicio.
 
 GList glist_agregar_inicio(GList lista, void* p) {
   GNodo *nuevoNodo = malloc(sizeof(GNodo));
@@ -18,6 +26,8 @@ GList glist_agregar_inicio(GList lista, void* p) {
   nuevoNodo->sig = lista;
   return nuevoNodo;
 }
+
+// Destruye una lista.
 
 void glist_destruir(GList lista){
 	GNodo* nodoAEliminar;
@@ -27,6 +37,10 @@ void glist_destruir(GList lista){
 		free(nodoAEliminar);
 	}
 }
+
+// reconocer_cadena: recibe una posicion i y una cadena, lee desde la posicion
+// i hasta que encuentre una ',' dentro de la cadena. El string leido es 
+// copiado en una cadena nueva y retornado por la función.
 
 char* reconocer_cadena(int *i, char* linea){
   char* cadena=malloc(sizeof(char)*50);
@@ -39,7 +53,7 @@ char* reconocer_cadena(int *i, char* linea){
   return cadena;
 }
 
-// Lee una lista de personas y la guarda en una lista enlazada.
+// Lee una lista de personas y guarda los datos en una lista enlazada simple.
 
 GList lectura_archivo(){
   FILE * fp;
@@ -69,14 +83,14 @@ GList lectura_archivo(){
   return ListaDePersonas;
 }
 
-// Función para map.
+// Le suma 10 años a la edad de una persona.
 
 void* aumentar_edad(void* pers){
     ((Persona*)pers)->edad += 10;
     return pers;
 }
 
-// Función para map.
+// Oculta el nombre de una persona, poniendo 'x' en vez de su nombre.
 
 void* ocultar_nombre(void* persona){
 	for (int i = 0; i < strlen(((Persona*)persona)->nombre); i++){
@@ -85,7 +99,9 @@ void* ocultar_nombre(void* persona){
 	return persona;
 }
 
-// Funcion para filter
+// Determina si una persona es mayor de 18, devuelve 1 si es mayor,
+// y 0 en caso contrario.
+
 int mayor_de_edad(void *dato){
   return (((Persona *) dato)->edad > 18);
 }
@@ -105,7 +121,9 @@ void test_es_mayor_de_edad(){
 
 }
 
-//Funcion para filter
+// Devuelve 1 si el nombre de una persona comienza con 
+// la letra 'A', caso contrario devuelve 0.
+
 int empieza_con_a(void *dato){
   return (((Persona *) dato)->nombre[0]=='A');
 }
@@ -126,6 +144,8 @@ void test_empieza_con_a(){
 	free(pers2);
 
 }
+
+// Dado un dato, devuelve una copia del mismo.
 
 void* copiar_nodo(void* p){
     void* nuevap = malloc(sizeof(Persona*));
@@ -169,10 +189,14 @@ GList filter(GList lista, Predicado f, Copia c){
   return listaRetorno;
 }
 
+// Muestra por pantalla los datos de Persona.
+
 void mostrar_persona(void *dato){
   printf("%s %d %s\n", ((Persona *) dato)->nombre, ((Persona *) dato)->edad, ((Persona *) dato)->lugarDeNacimiento);
 }
 
+// Dado un nombre de archivo y una lista, crea un archivo con 
+// el nombre recibido y copia la lista allí.
 
 void escribir_lista(char* nombreArchivo, GList lista){
 	FILE* fp;
