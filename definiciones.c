@@ -59,7 +59,7 @@ GList lectura_archivo(){
   FILE * fp;
   fp = fopen("personas.txt", "r");
   assert(fp != NULL);
-  GList ListaDePersonas=glist_crear();
+  GList ListaDePersonas = glist_crear();
   char *linea = malloc(sizeof(char)*100);
   assert(linea != NULL);
   int *i=malloc(sizeof(int));
@@ -166,6 +166,7 @@ void* copiar_nodo(void* p){
 }
 
 GList map(GList lista, Funcion f, Copia c){
+	assert(!glist_vacia(lista));
     GList nuevaLista = glist_crear();
     for(GList i = lista; i != NULL; i = i->sig){
         void* copia = c((i->dato));
@@ -178,6 +179,7 @@ GList map(GList lista, Funcion f, Copia c){
 }
 
 GList filter(GList lista, Predicado f, Copia c){
+  assert(!glist_vacia(lista));	
   GList listaRetorno=glist_crear();
   for(GList i=lista;i!=NULL;i=i->sig){
     if(f(i->dato)){
@@ -201,6 +203,7 @@ void mostrar_persona(void *dato){
 void escribir_lista(char* nombreArchivo, GList lista){
 	FILE* fp;
     fp = fopen(nombreArchivo, "w+");
+    assert(!glist_vacia(lista));
 	for(GList i = lista; i != NULL; i = i->sig){
 		fprintf(fp, "%s, %d, %s\n", ((Persona*) i->dato)->nombre, ((Persona*) i->dato)->edad, ((Persona*) i->dato)->lugarDeNacimiento);
 	}
@@ -209,6 +212,7 @@ void escribir_lista(char* nombreArchivo, GList lista){
 }
 
 void mapear_lista(GList lista, Funcion f, Copia c, char* nombreArchivo){
+	assert(!glist_vacia(lista));
 
     GList nuevaLista = map(lista, f, c);
 
@@ -218,6 +222,7 @@ void mapear_lista(GList lista, Funcion f, Copia c, char* nombreArchivo){
 }
 
 void filtrar_lista(char *nombreArchivo, Predicado f, GList ListaDePersonas, Copia c){
+  assert(!glist_vacia(ListaDePersonas));
   GList lista1=filter(ListaDePersonas,f,c);
   escribir_lista(nombreArchivo,lista1);
   glist_destruir(lista1);
