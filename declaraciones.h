@@ -39,32 +39,53 @@ int glist_vacia(GList lista);
  
 GList glist_agregar_inicio(GList lista, void* dato);
 
+// Determina si una persona es mayor de 18 años.
+
 int mayor_de_edad(void* dato);
 
-void test_es_mayor_de_edad();
+// Testing
+
+void test_mayor_de_edad();
+
+// Testing
 
 void test_empieza_con_a();
 
-/**
- * Recorrido de la lista, utilizando la funcion pasada.
- */
-//void glist_recorrer(GList lista, FuncionVisitante visit);
+// Lee de un archivo una lista de Personas y la pasa a una lista.
 
 GList lectura_archivo();
 
+// Muestra los datos de una Persona por pantalla.
+
 void mostrar_persona(void *dato);
+
+// Aumenta la edad de una persona en 10 años.
 
 void* aumentar_edad(void* p);
 
+// Oculta el nombre de una Persona poniendo 'x' en las letras de su nombre.
+
 void* ocultar_nombre(void* persona);
 
-int mayor_de_edad(void *dato);
+// Determina si el nombre de una persona empieza con A.
 
 int empieza_con_a(void *dato);
 
+// Crea una copia del dato recibido.
+
 void* copiar_nodo(void* p);
 
+// Toma una lista, le aplica la función map y vuelva la nueva
+// lista en un archivo.
+
 void mapear_lista(GList lista, Funcion f, Copia c, char* nombreArchivo);
+
+// Toma una lista, le aplica la función map y vuelva la nueva
+// lista en un archivo.
+
+void filtrar_lista(char *nombreArchivo, Predicado f, GList ListaDePersonas, Copia c);
+
+// Recibe una lista y la escribe en un archivo.
 
 void escribir_lista(char* nombreArchivo, GList lista);
 

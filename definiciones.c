@@ -63,11 +63,12 @@ GList lectura_archivo(){
   char *linea = malloc(sizeof(char)*100);
   assert(linea != NULL);
   int *i=malloc(sizeof(int));
+  assert(i != NULL);
   while (fgets(linea, 100, fp) != NULL && !feof(fp)){
     *(i)=0;
     Persona* p = malloc(sizeof(Persona*));
    	p->nombre = reconocer_cadena(i, linea);
-   	*(i)+=2;
+   	*(i)+=2; // Nos movemos 2 posiciones para leer directamente la edad y no la coma y espacio. 
    	p->edad = atoi(reconocer_cadena(i, linea));
    	*(i)+=2;
    	p->lugarDeNacimiento = reconocer_cadena(i, linea);
@@ -106,7 +107,9 @@ int mayor_de_edad(void *dato){
   return (((Persona *) dato)->edad > 18);
 }
 
-void test_es_mayor_de_edad(){
+// Testing de la función 'mayor_de_edad'
+
+void test_mayor_de_edad(){
 	void* pers1 = malloc(sizeof(Persona*));
 	((Persona*) pers1)->edad = 21;
 
@@ -127,6 +130,8 @@ void test_es_mayor_de_edad(){
 int empieza_con_a(void *dato){
   return (((Persona *) dato)->nombre[0]=='A');
 }
+
+// Testing de la función 'empieza_con_a'.
 
 void test_empieza_con_a(){
 	void* pers1 = malloc(sizeof(Persona*));
@@ -165,6 +170,12 @@ void* copiar_nodo(void* p){
     return nuevap;
 }
 
+// Recibe una lista, una función f y una función c.
+// Crea una copia de la lista dada haciendo uso de la
+// funcion Copia c, y luego, con esa nueva lista creada,
+// toma cada elemento y le aplica la función f; la nueva
+// lista es retornada.
+
 GList map(GList lista, Funcion f, Copia c){
 	assert(!glist_vacia(lista));
     GList nuevaLista = glist_crear();
@@ -177,6 +188,10 @@ GList map(GList lista, Funcion f, Copia c){
     }
     return nuevaLista;
 }
+
+// Recibe una lista, un Predicado f y una función Copia c.
+// Crea una nueva lista y agrega a ella sólo los elementos
+// para los que el predicado f retorne 1.
 
 GList filter(GList lista, Predicado f, Copia c){
   assert(!glist_vacia(lista));	
@@ -211,15 +226,18 @@ void escribir_lista(char* nombreArchivo, GList lista){
 	fclose(fp);
 }
 
+// Toma una lista a la cual le aplica la función map, y luego
+// copia la lista retornada por esa función en un archivo.
+
 void mapear_lista(GList lista, Funcion f, Copia c, char* nombreArchivo){
 	assert(!glist_vacia(lista));
-
     GList nuevaLista = map(lista, f, c);
-
     escribir_lista(nombreArchivo, nuevaLista);
-
     glist_destruir(nuevaLista);
 }
+
+// Toma una lista a la cual le aplica la función filter, y luego
+// copia la lista retornada por esa función en un archivo.
 
 void filtrar_lista(char *nombreArchivo, Predicado f, GList ListaDePersonas, Copia c){
   assert(!glist_vacia(ListaDePersonas));
